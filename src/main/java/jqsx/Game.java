@@ -24,6 +24,8 @@ public class Game implements GameLogic {
 
         BlockManager.createBlock(new BlockData("block.png"));
         BlockManager.createBlock(new BlockData("shortgrass.png"));
+        BlockManager.createBlock(new BlockData("tree.png"));
+        BlockManager.createBlock(new BlockData("water.png"));
 
         EngineConfiguration config = new EngineConfiguration();
         config.height = 600;
