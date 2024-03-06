@@ -1,0 +1,10 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="WNJO4:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/WNJO4_jar</output-path>
+    <root id="archive" name="WNJO4.jar">
+      <element id="module-output" name="WNJO4" />
+      <element id="extracted-dir" path="$USER_HOME$/Kanapka-Engine/target/Engine-1.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/apache/commons/commons-math3/3.6.1/commons-math3-3.6.1.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>

@@ -5,6 +5,7 @@ import KanapkaEngine.Components.BlockManager;
 import KanapkaEngine.Components.SimpleViewController;
 import KanapkaEngine.Engine;
 import KanapkaEngine.Game.*;
+import KanapkaEngine.RenderLayers.Chunks;
 import jqsx.World.ProceduralWorld;
 import jqsx.scripts.PlayerInput;
 
@@ -38,6 +39,8 @@ public class Game implements GameLogic {
 
         engine.load(new SimpleViewController());
         engine.load(new PlayerInput());
+
+        Chunks.DEACTIVATIONDELAY = 3.0;
 
         engine.getWindow().setWorldBackdrop(new Color(99, 153, 107));
     }
