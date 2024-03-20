@@ -1,7 +1,6 @@
 package jqsx.scripts;
 
-import KanapkaEngine.Components.NodeComponent;
+import KanapkaEngine.Components.Node;
 
-public class Entity extends NodeComponent {
-
+public class Entity extends Node {
 }

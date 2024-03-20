@@ -2,6 +2,7 @@ package jqsx.scripts;
 
 import KanapkaEngine.Engine;
 import KanapkaEngine.Game.Plugin;
+import KanapkaEngine.Game.SceneManager;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -23,7 +24,10 @@ public class PlayerInput extends Plugin implements KeyListener, MouseListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
-
+        if (e.getKeyChar() == 'z') {
+            SceneManager.getCurrentlyLoaded().scene_world.setWorldName("Procedural");
+            SceneManager.getCurrentlyLoaded().scene_world.saveWorld();
+        }
     }
 
     @Override
