@@ -1,11 +1,17 @@
 package jqsx;
 
 import KanapkaEngine.Components.*;
+import KanapkaEngine.Components.Component;
+import KanapkaEngine.Components.Renderer;
 import KanapkaEngine.Engine;
 import KanapkaEngine.Game.*;
 import KanapkaEngine.RenderLayers.Chunks;
+import KanapkaEngine.Time;
 import jqsx.World.ProceduralWorld;
+import jqsx.scripts.Player;
 import jqsx.scripts.PlayerInput;
+import jqsx.scripts.TestParticleSystem;
+import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -14,9 +20,11 @@ public class Game implements GameLogic {
 
     public static Game game;
     public static Engine engine;
-
+    TestParticleSystem test = new TestParticleSystem();
     public static void run() {
         game = new Game();
+
+        Physics.gravity = new Vector2D(0, 0);
 
         Scene sampleScene = new Scene(new ProceduralWorld());
         sampleScene.setGlobalSize(4);
@@ -73,7 +81,7 @@ public class Game implements GameLogic {
         engine = new Engine(game, config);
         engine.InitializeLayers();
 
-        engine.load(new SimpleViewController());
+//        engine.load(new SimpleViewController());
         engine.load(new PlayerInput());
 
         Chunks.DEACTIVATIONDELAY = 3.0;
@@ -81,14 +89,50 @@ public class Game implements GameLogic {
         engine.getWindow().setWorldBackdrop(new Color(195, 214, 87));
     }
 
+    private double last = Time.time();
     @Override
     public void Start() {
+//        Node system = new Node();
+//        system.addComponent(test);
+//        system.transform.setSize(new Vector2D(16, 16));
+//
+//        system.append();
 
+        {
+            Player player = new Player();
+            player.transform.setPosition(new Vector2D(0, 0));
+            player.claimLocalAuthority();
+
+            player.transform.setSize(new Vector2D(16, 16));
+
+            player.addComponent(new Renderer());
+            player.getRenderer().setTexture(ResourceLoader.loadResource("MiniWorldSprites/Animals/Chick.png").getSubimage(0, 0, 16, 16));
+
+            player.append();
+        }
+
+        {
+            Node node = new Node();
+            node.addComponent(new Renderer());
+            node.getRenderer().setTexture(ResourceLoader.loadResource("MiniWorldSprites/Animals/Boar.png"));
+
+            node.transform.setPosition(new Vector2D(150, 0));
+            node.transform.setSize(new Vector2D(50, 50));
+
+            node.addComponent(new Collider());
+
+            node.append();
+        }
     }
 
     @Override
     public void Update() {
+//        if (last + .4 < Time.time()) {
+//            test.Spawn();
+//            last = Time.time();
+//        }
 
+//        test.getParent().transform.setRotation(Math.toDegrees(Time.time()));
     }
 
     @Override
