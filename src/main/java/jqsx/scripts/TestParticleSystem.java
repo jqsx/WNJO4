@@ -12,14 +12,24 @@ public class TestParticleSystem extends ParticleSystem<TestParticle> {
 
     private static BufferedImage[] spriteSheet = setupParticles();
 
+    private double lastEmit = Time.time();
+
     @Override
     public double getLifeTime() {
-        return 3;
+        return 10;
     }
 
     @Override
     public void onParticleUpdate(TestParticle particle, double fixedDelta) {
-        particle.addPosition(new Vector2D(100 * (0.5 - Math.random()), 100 * (0.5 - Math.random())).scalarMultiply(fixedDelta));
+        particle.addPosition(new Vector2D(20 * Math.sin((particle.getPosition().getX() + particle.getPosition().getY() + Time.time() * 30) / 30.0), 20).scalarMultiply(fixedDelta));
+    }
+
+    @Override
+    public void onUpdate(double fixedDelta) {
+        if (lastEmit + 0.1 < Time.time()) {
+            SpawnOffset(new Vector2D(15 * (0.5 - Math.random()), 15 * (0.5 - Math.random())));
+            lastEmit = Time.time();
+        }
     }
 
     @Override
@@ -29,14 +39,14 @@ public class TestParticleSystem extends ParticleSystem<TestParticle> {
 
     @Override
     public BufferedImage getRender(Particle particle) {
-        return spriteSheet[(int)(Math.floor(Time.time() * 16.0 % 4.0))];
+        return spriteSheet[(int)(Math.floor((Time.time() + particle.getPosition().getX() * 0.02 + particle.getPosition().getY() * 0.02) * 4.0 % 4.0))];
     }
 
     private static BufferedImage[] setupParticles() {
         BufferedImage[] images = new BufferedImage[4];
         BufferedImage m = ResourceLoader.loadResource("fireParticles/particles1.png");
         for (int i = 0; i < 4; i++) {
-            images[i] = m.getSubimage(16 * i + 16 * 6, 16 * 7, 16, 16);
+            images[i] = m.getSubimage(16 * i + 16 * 11, 0, 16, 16);
         }
         return images;
     }

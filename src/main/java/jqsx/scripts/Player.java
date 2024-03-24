@@ -34,9 +34,9 @@ public class Player extends Entity {
             int x = (Input.isKeyDown('a') ? -1 : 0) + (Input.isKeyDown('d') ? 1 : 0);
             int y = (Input.isKeyDown('s') ? -1 : 0) + (Input.isKeyDown('w') ? 1 : 0);
 
-            rb.setVelocity(new Vector2D(Mathf.Lerp(rb.getVelocity().getX(), x * 100.0, Time.deltaTime() * 10.0), Mathf.Lerp(rb.getVelocity().getY(), y * 100.0, Time.deltaTime() * 10.0)));
+            rb.setVelocity(new Vector2D(Mathf.Lerp(rb.getVelocity().getX(), x * 50.0, Time.deltaTime() * 15.0), Mathf.Lerp(rb.getVelocity().getY(), y * 50.0, Time.deltaTime() * 15.0)));
 
-            Camera.main.setPosition(transform.getPosition().scalarMultiply(-1));
+            Camera.main.setPosition(Mathf.Lerp(Camera.main.getPosition(), transform.getPosition().scalarMultiply(-1), Time.deltaTime() * 10.0));
         }
     }
 

@@ -31,7 +31,7 @@ public class ProceduralWorld extends World {
                     if (b > 0.5) {
                         new Block(chunk, new Point(i, j), 4 + (int)Math.floor(4 * Mathf.Clamp01((b - 0.5) / 4.0)));
                     }
-                    else if (n > 1.5 && b < 0.2 && j % 2 == 0) {
+                    else if (n > 1.5 && b < 0.2) {
                         new Block(chunk, new Point(i, j), 9 + (int)Math.floor(Mathf.Clamp01(n - 1.5) / 2.0 * 3));
                     }
                     else if (n < -1.5 && b < .2 ) {

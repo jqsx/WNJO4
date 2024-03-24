@@ -77,6 +77,7 @@ public class Game implements GameLogic {
         config.height = 600;
         config.width = 800;
         config.FPSLIMIT = 9999;
+        config.window_title = "WNJO";
 
         engine = new Engine(game, config);
         engine.InitializeLayers();
@@ -88,25 +89,23 @@ public class Game implements GameLogic {
 
         engine.getWindow().setWorldBackdrop(new Color(195, 214, 87));
     }
-
-    private double last = Time.time();
     @Override
     public void Start() {
-//        Node system = new Node();
-//        system.addComponent(test);
-//        system.transform.setSize(new Vector2D(16, 16));
-//
-//        system.append();
+        Node system = new Node();
+        system.addComponent(test);
+        system.transform.setSize(new Vector2D(16, 16));
+
+        system.append();
 
         {
             Player player = new Player();
             player.transform.setPosition(new Vector2D(0, 0));
             player.claimLocalAuthority();
 
-            player.transform.setSize(new Vector2D(16, 16));
+            player.transform.setSize(new Vector2D(12, 12));
 
             player.addComponent(new Renderer());
-            player.getRenderer().setTexture(ResourceLoader.loadResource("MiniWorldSprites/Animals/Chick.png").getSubimage(0, 0, 16, 16));
+            player.getRenderer().setTexture(ResourceLoader.loadResource("MiniWorldSprites/Characters/Soldiers/Melee/RedMelee/AssasinRed.png").getSubimage(0, 0, 16, 16));
 
             player.append();
         }
@@ -114,7 +113,7 @@ public class Game implements GameLogic {
         {
             Node node = new Node();
             node.addComponent(new Renderer());
-            node.getRenderer().setTexture(ResourceLoader.loadResource("MiniWorldSprites/Animals/Boar.png"));
+            node.getRenderer().setTexture(ResourceLoader.loadResource("wooden.png"));
 
             node.transform.setPosition(new Vector2D(150, 0));
             node.transform.setSize(new Vector2D(50, 50));
@@ -127,12 +126,7 @@ public class Game implements GameLogic {
 
     @Override
     public void Update() {
-//        if (last + .4 < Time.time()) {
-//            test.Spawn();
-//            last = Time.time();
-//        }
 
-//        test.getParent().transform.setRotation(Math.toDegrees(Time.time()));
     }
 
     @Override
