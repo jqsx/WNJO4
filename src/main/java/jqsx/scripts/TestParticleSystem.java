@@ -1,5 +1,6 @@
 package jqsx.scripts;
 
+import KanapkaEngine.Components.Mathf;
 import KanapkaEngine.Components.Particle;
 import KanapkaEngine.Components.ParticleSystem;
 import KanapkaEngine.Components.ResourceLoader;
@@ -21,7 +22,8 @@ public class TestParticleSystem extends ParticleSystem<TestParticle> {
 
     @Override
     public void onParticleUpdate(TestParticle particle, double fixedDelta) {
-        particle.addPosition(new Vector2D(20 * Math.sin((particle.getPosition().getX() + particle.getPosition().getY() + Time.time() * 30) / 30.0), 20).scalarMultiply(fixedDelta));
+        double mx = Mathf.Noise.noise(particle.getPosition().getX() + Time.time() * 30, particle.getPosition().getY() + Time.time() * 30);
+        particle.addPosition(new Vector2D(20 * mx, 20).scalarMultiply(fixedDelta));
     }
 
     @Override

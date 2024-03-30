@@ -7,6 +7,7 @@ import KanapkaEngine.Engine;
 import KanapkaEngine.Game.*;
 import KanapkaEngine.RenderLayers.Chunks;
 import KanapkaEngine.Time;
+import jqsx.Blocks.FloorBlockType;
 import jqsx.World.ProceduralWorld;
 import jqsx.scripts.Player;
 import jqsx.scripts.PlayerInput;
@@ -39,11 +40,11 @@ public class Game implements GameLogic {
 
         { // shore
             BufferedImage rocks = ResourceLoader.loadResource("MiniWorldSprites/Ground/Shore.png");
-            BlockManager.createBlock(new BlockData(rocks.getSubimage(0, 0, 16, 16)));
-            BlockManager.createBlock(new BlockData(rocks.getSubimage(16, 0, 16, 16)));
-            BlockManager.createBlock(new BlockData(rocks.getSubimage(32, 0, 16, 16)));
-            BlockManager.createBlock(new BlockData(rocks.getSubimage(48, 0, 16, 16)));
-            BlockManager.createBlock(new BlockData(rocks.getSubimage(64, 0, 16, 16)));
+            BlockManager.createBlock(new FloorBlockType(rocks.getSubimage(0, 0, 16, 16)));
+            BlockManager.createBlock(new FloorBlockType(rocks.getSubimage(16, 0, 16, 16)));
+            BlockManager.createBlock(new FloorBlockType(rocks.getSubimage(32, 0, 16, 16)));
+            BlockManager.createBlock(new FloorBlockType(rocks.getSubimage(48, 0, 16, 16)));
+            BlockManager.createBlock(new FloorBlockType(rocks.getSubimage(64, 0, 16, 16)));
         }
 
         // 8
