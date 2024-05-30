@@ -1,17 +1,14 @@
 package jqsx.World;
 
 import KanapkaEngine.Components.*;
-import KanapkaEngine.Game.Scene;
 import KanapkaEngine.Game.SceneManager;
-import jqsx.scripts.Tree;
-import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
+import java.util.Random;
 
 public class ProceduralWorld extends World {
 
-    private final Mathf.NoiseGenerator generator = new Mathf.NoiseGenerator(400);
+    private final Mathf.NoiseGenerator generator = new Mathf.NoiseGenerator(new Random().nextLong());
 
     @Override
     public void onGet(Point p) {

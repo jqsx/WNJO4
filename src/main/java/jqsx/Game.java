@@ -51,10 +51,10 @@ public class Game implements GameLogic {
 
         { // trees
             BufferedImage trees = ResourceLoader.loadResource("MiniWorldSprites/Nature/Trees.png");
-            BlockManager.createBlock(new BlockData(trees.getSubimage(0, 0, 16, 16)));
-            BlockManager.createBlock(new BlockData(trees.getSubimage(16, 0, 16, 16)));
-            BlockManager.createBlock(new BlockData(trees.getSubimage(32, 0, 16, 16)));
-            BlockManager.createBlock(new BlockData(trees.getSubimage(48, 0, 16, 16)));
+            BlockManager.createBlock(new FloorBlockType(trees.getSubimage(0, 0, 16, 16)));
+            BlockManager.createBlock(new FloorBlockType(trees.getSubimage(16, 0, 16, 16)));
+            BlockManager.createBlock(new FloorBlockType(trees.getSubimage(32, 0, 16, 16)));
+            BlockManager.createBlock(new FloorBlockType(trees.getSubimage(48, 0, 16, 16)));
         }
 
         // 12

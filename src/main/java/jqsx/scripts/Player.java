@@ -36,7 +36,7 @@ public class Player extends Entity {
 
             rb.setVelocity(new Vector2D(Mathf.Lerp(rb.getVelocity().getX(), x * 50.0, Time.deltaTime() * 15.0), Mathf.Lerp(rb.getVelocity().getY(), y * 50.0, Time.deltaTime() * 15.0)));
 
-            Camera.main.setPosition(Mathf.Lerp(Camera.main.getPosition(), transform.getPosition().scalarMultiply(-1), Time.deltaTime() * 10.0));
+            Camera.main.setPosition(transform.getPosition().scalarMultiply(-1));
         }
     }
 

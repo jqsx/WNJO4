@@ -17,18 +17,25 @@ public class TestParticleSystem extends ParticleSystem<TestParticle> {
 
     @Override
     public double getLifeTime() {
-        return 10;
+        return 2;
     }
 
     @Override
     public void onParticleUpdate(TestParticle particle, double fixedDelta) {
         double mx = Mathf.Noise.noise(particle.getPosition().getX() + Time.time() * 30, particle.getPosition().getY() + Time.time() * 30);
-        particle.addPosition(new Vector2D(20 * mx, 20).scalarMultiply(fixedDelta));
+        particle.addVelocity(new Vector2D(10 * mx, 20).scalarMultiply(fixedDelta));
+    }
+
+    @Override
+    public void onSpawn(TestParticle instance) {
+        super.onSpawn(instance);
+
+        instance.addVelocity(new Vector2D((0.5 - Math.random()) * 10, (0.5 - Math.random()) * 20));
     }
 
     @Override
     public void onUpdate(double fixedDelta) {
-        if (lastEmit + 0.1 < Time.time()) {
+        if (lastEmit + 0.02 < Time.time()) {
             SpawnOffset(new Vector2D(15 * (0.5 - Math.random()), 15 * (0.5 - Math.random())));
             lastEmit = Time.time();
         }
