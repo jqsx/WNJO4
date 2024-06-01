@@ -2,21 +2,40 @@ package jqsx.scripts;
 
 import KanapkaEngine.Components.*;
 import KanapkaEngine.Game.Input;
+import KanapkaEngine.Net.NetworkIdentity;
 import KanapkaEngine.Time;
 import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
 
-public class Player extends Entity {
+import java.awt.*;
+import java.awt.geom.AffineTransform;
+import java.util.ArrayList;
+import java.util.List;
+
+public class Player extends Entity implements Renderable {
+
+    public static Player localPlayer;
+
+    public static List<Player> players = new ArrayList<>();
+
     private int id;
     private boolean local = false;
 
-    private Rigidbody rb;
-    private Collider collider;
+    private final Rigidbody rb;
+    private final Collider collider;
 
-    public Player() {
+    private final NetworkIdentity identity;
+    private final NetSync sync;
+
+    public Player(int id) {
         super();
 
         addComponent(rb = new Rigidbody());
         addComponent(collider = new Collider());
+        addComponent(identity = new NetworkIdentity(id));
+        addComponent(sync = new NetSync());
+
+
+        players.add(this);
     }
 
     public int getId() {
@@ -26,6 +45,7 @@ public class Player extends Entity {
 
     public void claimLocalAuthority() {
         local = true;
+        localPlayer = this;
     }
 
     @Override
@@ -42,5 +62,18 @@ public class Player extends Entity {
 
     public boolean isLocalPlayer() {
         return local;
+    }
+
+    @Override
+    public void onRender(Graphics2D main, AffineTransform at) {
+        main.setColor(Color.red);
+        main.drawString("ID " + id, (int) at.getTranslateX(), (int) at.getTranslateY());
+    }
+
+    @Override
+    public void onDestroy() {
+        players.remove(this);
+        if (local)
+            localPlayer = null;
     }
 }

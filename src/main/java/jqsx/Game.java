@@ -5,6 +5,8 @@ import KanapkaEngine.Components.Component;
 import KanapkaEngine.Components.Renderer;
 import KanapkaEngine.Engine;
 import KanapkaEngine.Game.*;
+import KanapkaEngine.Net.NetworkIdentity;
+import KanapkaEngine.Net.NetworkServer;
 import KanapkaEngine.RenderLayers.Chunks;
 import KanapkaEngine.Time;
 import jqsx.Blocks.FloorBlockType;
@@ -132,6 +134,12 @@ public class Game implements GameLogic {
 
     @Override
     public void End() {
+
+    }
+
+    private void networkInit() {
+        NetworkServer.StartServer();
+
 
     }
 }
