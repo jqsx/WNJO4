@@ -1,12 +1,11 @@
 package jqsx.scripts;
 
-import KanapkaEngine.Components.Mathf;
-import KanapkaEngine.Components.Particle;
-import KanapkaEngine.Components.ParticleSystem;
-import KanapkaEngine.Components.ResourceLoader;
+import KanapkaEngine.Components.*;
 import KanapkaEngine.Time;
 import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
 
+import java.awt.*;
+import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 
 public class TestParticleSystem extends ParticleSystem<TestParticle> {
@@ -17,12 +16,12 @@ public class TestParticleSystem extends ParticleSystem<TestParticle> {
 
     @Override
     public double getLifeTime() {
-        return 2;
+        return 1;
     }
 
     @Override
     public void onParticleUpdate(TestParticle particle, double fixedDelta) {
-        double mx = Mathf.Noise.noise(particle.getPosition().getX() + Time.time() * 30, particle.getPosition().getY() + Time.time() * 30);
+        double mx = Mathf.Noise.noise(particle.getPosition().getX() + Time.time() * 30, particle.getPosition().getY() + Time.time() * 60);
         particle.addVelocity(new Vector2D(10 * mx, 20).scalarMultiply(fixedDelta));
     }
 
@@ -36,7 +35,7 @@ public class TestParticleSystem extends ParticleSystem<TestParticle> {
     @Override
     public void onUpdate(double fixedDelta) {
         if (lastEmit + 0.02 < Time.time()) {
-            SpawnOffset(new Vector2D(15 * (0.5 - Math.random()), 15 * (0.5 - Math.random())));
+            Spawn();//SpawnOffset(new Vector2D(15 * (0.5 - Math.random()), 15 * (0.5 - Math.random())));
             lastEmit = Time.time();
         }
     }

@@ -38,6 +38,15 @@ public class Player extends Entity implements Renderable {
         addComponent(identity = new NetworkIdentity(id));
         addComponent(sync = new NetSync());
 
+        transform.setPosition(new Vector2D(0, 0));
+
+        transform.setSize(new Vector2D(12, 12));
+
+        addComponent(new Renderer());
+        getRenderer().setTexture(ResourceLoader.loadResource("MiniWorldSprites/Characters/Soldiers/Melee/RedMelee/AssasinRed.png").getSubimage(0, 0, 16, 16));
+
+        append();
+
         {
             dashcomp = new TestParticleSystem();
 
@@ -48,6 +57,8 @@ public class Player extends Entity implements Renderable {
             dash.addComponent(dashcomp);
 
             dash.append();
+
+            dash.transform.setPosition(new Vector2D(-16, -16));
         }
 
         players.add(this);
@@ -70,7 +81,7 @@ public class Player extends Entity implements Renderable {
             int y = (Input.isKeyDown('s') ? -1 : 0) + (Input.isKeyDown('w') ? 1 : 0);
 
             if (dashDelay < Time.time() && Input.isKeyDown(' ')) {
-                rb.addVelocity(new Vector2D(x * 200.0, y * 200.0));
+                rb.addVelocity(new Vector2D(x * 600.0, y * 600.0));
                 dashDelay = Time.time() + 0.5;
 
                 for (int i = 0; i < 16; i++) {
@@ -91,6 +102,11 @@ public class Player extends Entity implements Renderable {
     public void onRender(Graphics2D main, AffineTransform at) {
         main.setColor(Color.red);
         main.drawString("ID " + id, (int) at.getTranslateX(), (int) at.getTranslateY());
+
+        {
+            Vector2D size = Chunk.getSize();
+            main.drawString("P " + new Point((int) Math.round(transform.getPosition().getX() / size.getX()), (int) Math.round(transform.getPosition().getY() / size.getY())), (int) at.getTranslateX(), (int) at.getTranslateY() + 10);
+        }
     }
 
     @Override

@@ -93,6 +93,8 @@ public class Game implements GameLogic {
         Chunks.DEACTIVATIONDELAY = 3.0;
 
         engine.getWindow().setWorldBackdrop(new Color(195, 214, 87));
+
+        engine.getWindow().setIconImage(ResourceLoader.loadResource("logo.png"));
     }
     @Override
     public void Start() {
@@ -106,15 +108,8 @@ public class Game implements GameLogic {
 
         {
             Player player = new Player(0);
-            player.transform.setPosition(new Vector2D(0, 0));
+
             player.claimLocalAuthority();
-
-            player.transform.setSize(new Vector2D(12, 12));
-
-            player.addComponent(new Renderer());
-            player.getRenderer().setTexture(ResourceLoader.loadResource("MiniWorldSprites/Characters/Soldiers/Melee/RedMelee/AssasinRed.png").getSubimage(0, 0, 16, 16));
-
-            player.append();
         }
 
         {
@@ -129,6 +124,8 @@ public class Game implements GameLogic {
 
             node.append();
         }
+
+        networkInit();
     }
 
     @Override
