@@ -11,6 +11,7 @@ import KanapkaEngine.RenderLayers.Chunks;
 import KanapkaEngine.Time;
 import jqsx.Blocks.FloorBlockType;
 import jqsx.World.ProceduralWorld;
+import jqsx.scripts.DelayDestroy;
 import jqsx.scripts.Player;
 import jqsx.scripts.PlayerInput;
 import jqsx.scripts.TestParticleSystem;
@@ -30,7 +31,7 @@ public class Game implements GameLogic {
         Physics.gravity = new Vector2D(0, 0);
 
         Scene sampleScene = new Scene(new ProceduralWorld());
-        sampleScene.setGlobalSize(4);
+        sampleScene.setGlobalSize(2);
         sampleScene.load();
         SceneManager.loadScene(sampleScene);
 
@@ -87,6 +88,7 @@ public class Game implements GameLogic {
 
 //        engine.load(new SimpleViewController());
         engine.load(new PlayerInput());
+        engine.load(new DelayDestroy());
 
         Chunks.DEACTIVATIONDELAY = 3.0;
 
@@ -94,14 +96,16 @@ public class Game implements GameLogic {
     }
     @Override
     public void Start() {
+/*
         Node system = new Node();
         system.addComponent(test);
         system.transform.setSize(new Vector2D(16, 16));
 
         system.append();
+*/
 
         {
-            Player player = new Player();
+            Player player = new Player(0);
             player.transform.setPosition(new Vector2D(0, 0));
             player.claimLocalAuthority();
 

@@ -26,6 +26,10 @@ public class Player extends Entity implements Renderable {
     private final NetworkIdentity identity;
     private final NetSync sync;
 
+    private double dashDelay = 0.0;
+
+    private TestParticleSystem dashcomp;
+
     public Player(int id) {
         super();
 
@@ -34,6 +38,17 @@ public class Player extends Entity implements Renderable {
         addComponent(identity = new NetworkIdentity(id));
         addComponent(sync = new NetSync());
 
+        {
+            dashcomp = new TestParticleSystem();
+
+            Node dash = new Node(this);
+
+            dash.transform.setSize(new Vector2D(16, 16));
+
+            dash.addComponent(dashcomp);
+
+            dash.append();
+        }
 
         players.add(this);
     }
@@ -54,6 +69,14 @@ public class Player extends Entity implements Renderable {
             int x = (Input.isKeyDown('a') ? -1 : 0) + (Input.isKeyDown('d') ? 1 : 0);
             int y = (Input.isKeyDown('s') ? -1 : 0) + (Input.isKeyDown('w') ? 1 : 0);
 
+            if (dashDelay < Time.time() && Input.isKeyDown(' ')) {
+                rb.addVelocity(new Vector2D(x * 200.0, y * 200.0));
+                dashDelay = Time.time() + 0.5;
+
+                for (int i = 0; i < 16; i++) {
+                    dashcomp.Spawn();
+                }
+            }
             rb.setVelocity(new Vector2D(Mathf.Lerp(rb.getVelocity().getX(), x * 50.0, Time.deltaTime() * 15.0), Mathf.Lerp(rb.getVelocity().getY(), y * 50.0, Time.deltaTime() * 15.0)));
 
             Camera.main.setPosition(transform.getPosition().scalarMultiply(-1));
