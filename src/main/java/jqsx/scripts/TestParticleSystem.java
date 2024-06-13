@@ -34,6 +34,7 @@ public class TestParticleSystem extends ParticleSystem<TestParticle> {
 
     @Override
     public void onUpdate(double fixedDelta) {
+        super.onUpdate(fixedDelta);
         if (lastEmit + 0.02 < Time.time()) {
             Spawn();//SpawnOffset(new Vector2D(15 * (0.5 - Math.random()), 15 * (0.5 - Math.random())));
             lastEmit = Time.time();

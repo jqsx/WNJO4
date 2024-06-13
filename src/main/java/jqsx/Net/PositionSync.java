@@ -2,11 +2,10 @@ package jqsx.Net;
 
 import KanapkaEngine.Components.Node;
 import KanapkaEngine.Net.NetworkConnectionToClient;
-import KanapkaEngine.Net.NetworkIdentity;
 import KanapkaEngine.Net.NetworkServer;
 import KanapkaEngine.Net.Router.Route;
 import jqsx.scripts.NetSync;
-import jqsx.scripts.Player;
+import jqsx.scripts.entities.Player;
 import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
 
 import java.io.*;

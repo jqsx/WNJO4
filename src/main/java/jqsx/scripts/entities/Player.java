@@ -1,35 +1,28 @@
-package jqsx.scripts;
+package jqsx.scripts.entities;
 
 import KanapkaEngine.Components.*;
 import KanapkaEngine.Game.Input;
 import KanapkaEngine.Net.NetworkIdentity;
 import KanapkaEngine.Time;
+import jqsx.scripts.NetSync;
+import jqsx.scripts.TestParticleSystem;
 import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
 
 import java.awt.*;
-import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Player extends Entity implements Renderable {
-
     public static Player localPlayer;
-
     public static List<Player> players = new ArrayList<>();
-
     private int id;
     private boolean local = false;
-
     private final Rigidbody rb;
     private final Collider collider;
-
     private final NetworkIdentity identity;
     private final NetSync sync;
-
     private double dashDelay = 0.0;
-
     private TestParticleSystem dashcomp;
-
     public Player(int id) {
         super();
 
@@ -58,14 +51,13 @@ public class Player extends Entity implements Renderable {
 
             dash.append();
 
-            dash.transform.setPosition(new Vector2D(-16, -16));
+            //dash.transform.setPosition(new Vector2D(-16, -16));
         }
 
         players.add(this);
     }
 
     public int getId() {
-
         return id;
     }
 
@@ -88,7 +80,7 @@ public class Player extends Entity implements Renderable {
                     dashcomp.Spawn();
                 }
             }
-            rb.setVelocity(new Vector2D(Mathf.Lerp(rb.getVelocity().getX(), x * 50.0, Time.deltaTime() * 15.0), Mathf.Lerp(rb.getVelocity().getY(), y * 50.0, Time.deltaTime() * 15.0)));
+            rb.setVelocity(new Vector2D(Mathf.Lerp(rb.getVelocity().getX(), x * 50.0, Time.deltaTime() * 15.0), Mathf.Lerp(rb.getVelocity().getY(), y * 50.0, Time.deltaTime() * 3.0)));
 
             Camera.main.setPosition(transform.getPosition().scalarMultiply(-1));
         }
@@ -99,13 +91,13 @@ public class Player extends Entity implements Renderable {
     }
 
     @Override
-    public void onRender(Graphics2D main, AffineTransform at) {
+    public void onRender(Graphics2D main, Vector2D position, Vector2D scale) {
         main.setColor(Color.red);
-        main.drawString("ID " + id, (int) at.getTranslateX(), (int) at.getTranslateY());
+        main.drawString("ID " + id, (int) position.getX(), (int) position.getY());
 
         {
             Vector2D size = Chunk.getSize();
-            main.drawString("P " + new Point((int) Math.round(transform.getPosition().getX() / size.getX()), (int) Math.round(transform.getPosition().getY() / size.getY())), (int) at.getTranslateX(), (int) at.getTranslateY() + 10);
+            main.drawString("P " + new Point((int) Math.round(transform.getPosition().getX() / size.getX()), (int) Math.round(transform.getPosition().getY() / size.getY())), (int) position.getX(), (int) position.getY() + 10);
         }
     }
 

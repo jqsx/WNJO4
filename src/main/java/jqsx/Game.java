@@ -1,18 +1,15 @@
 package jqsx;
 
 import KanapkaEngine.Components.*;
-import KanapkaEngine.Components.Component;
 import KanapkaEngine.Components.Renderer;
 import KanapkaEngine.Engine;
 import KanapkaEngine.Game.*;
-import KanapkaEngine.Net.NetworkIdentity;
 import KanapkaEngine.Net.NetworkServer;
 import KanapkaEngine.RenderLayers.Chunks;
-import KanapkaEngine.Time;
 import jqsx.Blocks.FloorBlockType;
 import jqsx.World.ProceduralWorld;
 import jqsx.scripts.DelayDestroy;
-import jqsx.scripts.Player;
+import jqsx.scripts.entities.Player;
 import jqsx.scripts.PlayerInput;
 import jqsx.scripts.TestParticleSystem;
 import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
@@ -54,10 +51,10 @@ public class Game implements GameLogic {
 
         { // trees
             BufferedImage trees = ResourceLoader.loadResource("MiniWorldSprites/Nature/Trees.png");
-            BlockManager.createBlock(new FloorBlockType(trees.getSubimage(0, 0, 16, 16)));
-            BlockManager.createBlock(new FloorBlockType(trees.getSubimage(16, 0, 16, 16)));
-            BlockManager.createBlock(new FloorBlockType(trees.getSubimage(32, 0, 16, 16)));
-            BlockManager.createBlock(new FloorBlockType(trees.getSubimage(48, 0, 16, 16)));
+            BlockManager.createBlock(new BlockData(trees.getSubimage(0, 0, 16, 16)));
+            BlockManager.createBlock(new BlockData(trees.getSubimage(16, 0, 16, 16)));
+            BlockManager.createBlock(new BlockData(trees.getSubimage(32, 0, 16, 16)));
+            BlockManager.createBlock(new BlockData(trees.getSubimage(48, 0, 16, 16)));
         }
 
         // 12
@@ -121,23 +118,21 @@ public class Game implements GameLogic {
             node.transform.setSize(new Vector2D(50, 50));
 
             node.addComponent(new Collider());
+            node.addComponent(new Rigidbody());
 
             node.append();
         }
 
         networkInit();
     }
-
     @Override
     public void Update() {
 
     }
-
     @Override
     public void End() {
 
     }
-
     private void networkInit() {
         NetworkServer.StartServer();
 

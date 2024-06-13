@@ -7,7 +7,6 @@ import java.awt.*;
 import java.util.Random;
 
 public class ProceduralWorld extends World {
-
     private final Mathf.NoiseGenerator generator = new Mathf.NoiseGenerator(new Random().nextDouble());
     private final Mathf.NoiseGenerator n_generator = new Mathf.NoiseGenerator(new Random().nextDouble());
 
