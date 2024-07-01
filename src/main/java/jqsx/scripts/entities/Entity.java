@@ -7,6 +7,8 @@ public class Entity extends Node {
 
     private double maxHealth = 1;
 
+    private boolean Invoulnerable = false;
+
     public final void setHealth(double a) {
         double diff = a - health;
 
@@ -46,5 +48,13 @@ public class Entity extends Node {
 
     public final double getMaxHealth() {
         return maxHealth;
+    }
+
+    public boolean isInvoulnerable() {
+        return Invoulnerable;
+    }
+
+    public void setInvoulnerable(boolean invoulnerable) {
+        Invoulnerable = invoulnerable;
     }
 }

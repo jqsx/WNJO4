@@ -8,5 +8,6 @@ public class FloorBlockType extends BlockData {
     public FloorBlockType(BufferedImage subimage) {
         super(subimage);
         hasCollision = false;
+        floor = true;
     }
 }
