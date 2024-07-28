@@ -4,6 +4,7 @@ import KanapkaEngine.Components.*;
 import KanapkaEngine.Components.Renderer;
 import KanapkaEngine.Engine;
 import KanapkaEngine.Game.*;
+import KanapkaEngine.Net.NetworkIdentity;
 import KanapkaEngine.Net.NetworkServer;
 import KanapkaEngine.RenderLayers.Chunks;
 import KanapkaEngine.Time;
@@ -11,6 +12,7 @@ import KanapkaEngine.UI.Image;
 import KanapkaEngine.UI.Text;
 import KanapkaEngine.UI.UI;
 import KanapkaEngine.UI.UIComponent;
+import jqsx.Blocks.BlockRegistry;
 import jqsx.Blocks.DropType;
 import jqsx.Blocks.DropTypeNoCol;
 import jqsx.Blocks.FloorBlockType;
@@ -50,60 +52,7 @@ public class Game implements GameLogic {
 
         register_crafts();
 
-        BlockManager.createBlock(new BlockData("block.png"));
-        BlockManager.createBlock(new BlockData("shortgrass.png"));
-        BlockManager.createBlock(new BlockData("tree.png"));
-
-        // 3
-
-        { // shore
-            BufferedImage rocks = ResourceLoader.loadResource("MiniWorldSprites/Ground/Shore.png");
-            BlockManager.createBlock(new FloorBlockType(rocks.getSubimage(0, 0, 16, 16)));
-            BlockManager.createBlock(new FloorBlockType(rocks.getSubimage(16, 0, 16, 16)));
-            BlockManager.createBlock(new FloorBlockType(rocks.getSubimage(32, 0, 16, 16)));
-            BlockManager.createBlock(new FloorBlockType(rocks.getSubimage(48, 0, 16, 16)));
-            BlockManager.createBlock(new FloorBlockType(rocks.getSubimage(64, 0, 16, 16)));
-        }
-
-        // 8
-
-        { // trees
-            BufferedImage trees = ResourceLoader.loadResource("MiniWorldSprites/Nature/Trees.png");
-            BlockManager.createBlock(new DropType(trees.getSubimage(0, 0, 16, 16), Items.Wood));
-            BlockManager.createBlock(new DropType(trees.getSubimage(16, 0, 16, 16), Items.Wood, Items.Leaf));
-            BlockManager.createBlock(new DropType(trees.getSubimage(32, 0, 16, 16), Items.Wood, Items.Leaf));
-            BlockManager.createBlock(new DropType(trees.getSubimage(48, 0, 16, 16), Items.Wood));
-
-            for (int i = 9; i < 12; i++) {
-                BlockManager.getBlockData(i).blockStrength = 3;
-            }
-        }
-
-        // 12
-
-        { // rocks
-            BufferedImage rocks = ResourceLoader.loadResource("MiniWorldSprites/Nature/Rocks.png");
-            BlockManager.createBlock(new DropType(rocks.getSubimage(0, 0, 16, 16), Items.Stone));
-            BlockManager.createBlock(new DropType(rocks.getSubimage(16, 0, 16, 16), Items.Stone));
-            BlockManager.createBlock(new DropType(rocks.getSubimage(32, 0, 16, 16), Items.Stone));
-
-            BlockManager.createBlock(new DropType(rocks.getSubimage(0, 16, 16, 16), Items.Stone));
-            BlockManager.createBlock(new DropType(rocks.getSubimage(16, 16, 16, 16), Items.Stone));
-            BlockManager.createBlock(new DropType(rocks.getSubimage(32, 16, 16, 16), Items.Stone));
-
-            for (int i = 13; i < 19; i++) {
-                BlockManager.getBlockData(i).blockStrength = 50;
-            }
-        }
-
-        // 18
-
-        { // flowers
-            BlockManager.createBlock(new DropTypeNoCol(ResourceLoader.loadResource("RedFlower.png")));
-            BlockManager.createBlock(new DropTypeNoCol(ResourceLoader.loadResource("YellowFlower.png")));
-        }
-
-        // 20
+        BlockRegistry.init();
 
         IndexRenderer.addImage(ResourceLoader.loadResource("tree.png"));
 
@@ -126,7 +75,7 @@ public class Game implements GameLogic {
             BufferedImage icon = ResourceLoader.loadResource("logo.png");
 
             engine.getWindow().setIconImage(icon);
-            if (Taskbar.isTaskbarSupported())
+            if (Taskbar.isTaskbarSupported() && Taskbar.getTaskbar().isSupported(Taskbar.Feature.ICON_IMAGE))
                 Taskbar.getTaskbar().setIconImage(icon);
         }
 
@@ -212,6 +161,8 @@ public class Game implements GameLogic {
         sampleScene.load();
         SceneManager.loadScene(sampleScene);
         started = true;
+
+        NetworkInterface.isEnabled = false;
 
         engine.getWindow().setWorldBackdrop(new Color(195, 214, 87));
 
