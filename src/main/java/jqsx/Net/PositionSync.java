@@ -61,10 +61,11 @@ public class PositionSync extends Route {
     }
 
     public void syncAllPlayers() {
-        ByteBuffer buffer = ByteBuffer.allocate(4 + 20 * Player.players.size());
+        int size = NetSync.netObjects.size();
+        ByteBuffer buffer = ByteBuffer.allocate(4 + 20 * size);
 
-        buffer.putInt(NetSync.netObjects.size());
-        for (int i = 0; i < NetSync.netObjects.size(); i++) {
+        buffer.putInt(size);
+        for (int i = 0; i < size; i++) {
             NetSync player = NetSync.netObjects.get(i);
             buffer.put(s_getPosForConn(player.getId(), player.getParent()));
         }

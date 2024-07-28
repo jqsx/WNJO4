@@ -37,9 +37,7 @@ public class Player extends Entity implements Renderable {
     private final NetSync sync;
     private double dashDelay = 0.0;
     private TestParticleSystem dashcomp;
-
     private double breakDelay = Time.time();
-
     private static byte[] breaking;
     public Player(int id) {
         super();
@@ -139,7 +137,16 @@ public class Player extends Entity implements Renderable {
             }
             rb.setVelocity(new Vector2D(Mathf.Lerp(rb.getVelocity().getX(), x * 50.0, Time.deltaTime() * 10.0), Mathf.Lerp(rb.getVelocity().getY(), y * 50.0, Time.deltaTime() * 10.0)));
 
-            Camera.main.setPosition(Mathf.Lerp(Camera.main.getPosition(), transform.getPosition().scalarMultiply(-1), Time.deltaTime() * 15.0));
+//            Camera.main.setPosition(Mathf.Lerp(Camera.main.getPosition(), transform.getPosition().scalarMultiply(-1), Time.deltaTime() * 15.0));
+
+            {
+                double mag = Mathf.aDistance(Camera.main.getWorldPosition(), transform.getPosition());
+
+                Vector2D direction = transform.getPosition().subtract(Camera.main.getWorldPosition()).scalarMultiply(1.0 / mag);
+
+                if (mag > 0)
+                    Camera.main.setPosition(Camera.main.getPosition().add(direction.scalarMultiply(-Mathf.Clamp(mag, 0, 500) * Time.deltaTime())));
+            }
 
             if (breakDelay < Time.time() && Input.isButtonDown(1) && PlayerInput.canMove()) {
 

@@ -133,7 +133,8 @@ public class Game implements GameLogic {
 
         engine.RegisterRenderLayer(new InventoryDisplay());
 
-        loadIntoScene();
+//        loadIntoScene();
+        startGame();
     }
 
     private static void loadIntoScene() {
@@ -203,13 +204,9 @@ public class Game implements GameLogic {
 
     }
     public static void startGame() {
-/*
-        Node system = new Node();
-        system.addComponent(test);
-        system.transform.setSize(new Vector2D(16, 16));
 
-        system.append();
-*/
+        NetworkInterface.isEnabled = false;
+
         Scene sampleScene = new Scene(new ProceduralWorld());
         sampleScene.setGlobalSize(2);
         sampleScene.load();
@@ -224,19 +221,7 @@ public class Game implements GameLogic {
             player.claimLocalAuthority();
         }
 
-        networkInit();
-
-//        for (int i = 0; i < 16; i++) {
-//            Chicken chicken = new Chicken();
-//
-//            chicken.append();
-//        }
-//
-//        for (int i = 0; i < 9; i++) {
-//            Chick chick = new Chick();
-//
-//            chick.append();
-//        }
+        //networkInit();
     }
 
 
@@ -256,10 +241,10 @@ public class Game implements GameLogic {
     @Override
     public void Update() {
         if (!started) return;
-        if (net_server_last < Time.time()) {
-            Router.positionSync.syncAllPlayers();
-            net_server_last = Time.time() + 0.05;
-        }
+//        if (net_server_last < Time.time()) {
+//            Router.positionSync.syncAllPlayers();
+//            net_server_last = Time.time() + 0.05;
+//        }
     }
     @Override
     public void End() {
