@@ -2,14 +2,11 @@ package jqsx.scripts;
 
 import KanapkaEngine.Components.RenderLayer;
 import KanapkaEngine.Components.RenderStage;
-import KanapkaEngine.Game.Plugin;
-import KanapkaEngine.Game.SceneManager;
 import KanapkaEngine.Game.Window;
 import jqsx.Game;
-import jqsx.scripts.entities.Player;
+import jqsx.scripts.entities.player.Player;
 import jqsx.scripts.storage.*;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 

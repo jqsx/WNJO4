@@ -2,20 +2,16 @@ package jqsx.scripts;
 
 import KanapkaEngine.Components.*;
 import KanapkaEngine.Engine;
-import KanapkaEngine.Game.Input;
 import KanapkaEngine.Game.Plugin;
 import KanapkaEngine.Game.SceneManager;
 import KanapkaEngine.Game.Scheduler;
 import KanapkaEngine.Time;
-import jqsx.scripts.entities.Player;
+import jqsx.scripts.entities.player.Player;
 import jqsx.scripts.storage.Craft;
 import jqsx.scripts.storage.Crafts;
 import jqsx.scripts.storage.ItemStack;
-import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
 
 import java.awt.event.*;
-import java.io.IOException;
-import java.net.Socket;
 
 public class PlayerInput extends Plugin implements KeyListener, MouseListener, MouseWheelListener {
 

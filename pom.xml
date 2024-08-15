@@ -24,7 +24,7 @@
             <groupId>KanapkaEngine</groupId>
             <artifactId>Engine</artifactId>
             <version>1.0</version>
-            <systemPath>/Users/franekrakowiecki/Kanapka-Engine/target/Engine-1.0.jar</systemPath>
+            <systemPath>C:\Users\frane\Documents\GitHub\Kanapka-Engine\target\Engine-1.0.jar</systemPath>
             <scope>system</scope>
         </dependency>
     </dependencies>

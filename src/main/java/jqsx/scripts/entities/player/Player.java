@@ -1,6 +1,7 @@
-package jqsx.scripts.entities;
+package jqsx.scripts.entities.player;
 
 import KanapkaEngine.Components.*;
+import KanapkaEngine.Engine;
 import KanapkaEngine.Game.Input;
 import KanapkaEngine.Game.Scheduler;
 import KanapkaEngine.Net.NetworkIdentity;
@@ -14,13 +15,13 @@ import jqsx.scripts.Particles.BreakParticle;
 import jqsx.scripts.Particles.TestParticle;
 import jqsx.scripts.Particles.TestParticleSystem;
 import jqsx.scripts.PlayerInput;
+import jqsx.scripts.entities.Entity;
 import jqsx.scripts.storage.*;
 import jqsx.scripts.storage.Container;
 import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
 
 import javax.sound.sampled.*;
 import java.awt.*;
-import java.awt.event.KeyEvent;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -153,7 +154,10 @@ public class Player extends Entity implements Renderable {
 
                 Dimension screen = KanapkaEngine.Game.Window.getWindowSize();
 
-                Vector2D direction = (Input.getMousePosition().subtract(new Vector2D(screen.width / 2.0, screen.height / 2.0))).normalize();
+                if (Engine.isMacOS())
+                    screen = new Dimension((int) (screen.width / 2.0), (int) (screen.height / 2.0));
+
+                Vector2D direction = (Input.getMousePosition().subtract(new Vector2D(screen.width, screen.height))).normalize();
                 direction = new Vector2D(direction.getX(), -direction.getY());
                 Block[] blocks = Physics.castBlocks(transform.getPosition().add(direction.scalarMultiply(10)), new Vector2D(8, 8));
 

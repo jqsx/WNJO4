@@ -1,10 +1,8 @@
 package jqsx;
 
 import KanapkaEngine.Components.*;
-import KanapkaEngine.Components.Renderer;
 import KanapkaEngine.Engine;
 import KanapkaEngine.Game.*;
-import KanapkaEngine.Net.NetworkIdentity;
 import KanapkaEngine.Net.NetworkServer;
 import KanapkaEngine.RenderLayers.Chunks;
 import KanapkaEngine.Time;
@@ -13,16 +11,10 @@ import KanapkaEngine.UI.Text;
 import KanapkaEngine.UI.UI;
 import KanapkaEngine.UI.UIComponent;
 import jqsx.Blocks.BlockRegistry;
-import jqsx.Blocks.DropType;
-import jqsx.Blocks.DropTypeNoCol;
-import jqsx.Blocks.FloorBlockType;
 import jqsx.Net.NetworkInterface;
-import jqsx.Net.Router;
 import jqsx.World.ProceduralWorld;
 import jqsx.scripts.*;
-import jqsx.scripts.entities.Chick;
-import jqsx.scripts.entities.Chicken;
-import jqsx.scripts.entities.Player;
+import jqsx.scripts.entities.player.Player;
 import jqsx.scripts.storage.Craft;
 import jqsx.scripts.storage.ItemStack;
 import jqsx.scripts.storage.Items;
