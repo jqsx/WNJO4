@@ -77,7 +77,7 @@ public enum BlockRegistry {
             BlockManager.createBlock(new DropType(trees.getSubimage(48, 0, 16, 16), Items.Wood, Items.Leaf));
 
             for (int i = 0; i < 3; i++) {
-                data[i] = new DropType(trees.getSubimage(16 + i * 16, 0, 16, 16), Items.Wood, Items.Leaf);
+                data[i] = new DropType(trees.getSubimage(16 + i * 16, 0, 16, 16), BlockRegistry.STUMP, Items.Wood, Items.Leaf);
                 data[i].blockStrength = 3;
             }
         }

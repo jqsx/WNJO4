@@ -5,6 +5,7 @@ import KanapkaEngine.Game.Input;
 import KanapkaEngine.Game.Scheduler;
 import KanapkaEngine.Net.NetworkIdentity;
 import KanapkaEngine.Time;
+import jqsx.Blocks.DropType;
 import jqsx.Blocks.Drops;
 import jqsx.Net.NetworkInterface;
 import jqsx.scripts.DelayDestroy;
@@ -167,8 +168,6 @@ public class Player extends Entity implements Renderable {
                     BreakParticle.createBreak(block.getCenter());
                     playBreakingSound();
 
-                    ItemStack handItem = PlayerInput.getSelectedItem();
-
                     int mining_damage = 1;
                     mining_damage += (int) getMainHandStat(Statistics.Type.MiningDamage);
 
@@ -181,7 +180,10 @@ public class Player extends Entity implements Renderable {
                             }
                         }
 
-                        block.parent.setAir(block.point);
+                        if (block.getBlockData() instanceof DropType dropType) {
+                            dropType.onBreak(block);
+                        }
+                        else block.parent.setAir(block.point);
                     }
                 }
             }
