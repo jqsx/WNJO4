@@ -92,6 +92,10 @@ public class Player extends Entity implements Renderable {
         return id;
     }
 
+    public int getNetSyncId() {
+        return sync.getId();
+    }
+
     public void claimLocalAuthority() {
         local = true;
         localPlayer = this;
