@@ -46,8 +46,8 @@ public class ItemStack {
         return Item.get(id);
     }
 
-    public ItemDrop createDrop(Vector2D position) {
-        ItemDrop drop = new ItemDrop(this);
+    public ItemDrop createDrop(Vector2D position, int nid) {
+        ItemDrop drop = new ItemDrop(this, nid);
         drop.transform.setPosition(position);
 
         drop.name = getItem().itemName;

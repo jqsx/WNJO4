@@ -4,6 +4,8 @@ import KanapkaEngine.Components.Mathf;
 import KanapkaEngine.Components.ResourceLoader;
 import KanapkaEngine.Engine;
 import KanapkaEngine.Game.Plugin;
+import KanapkaEngine.Net.NetworkClient;
+import KanapkaEngine.Net.NetworkServer;
 import KanapkaEngine.UI.Image;
 import KanapkaEngine.UI.Text;
 import KanapkaEngine.UI.UI;
@@ -65,10 +67,21 @@ public class NetworkInterface extends Plugin implements KeyListener {
 
         mainMenu.text = "< Host >";
 
-        mainMenu.options.add(new Option("Host"));
+        mainMenu.options.add(new Option("Host", this::host));
+        mainMenu.options.add(new Option("Connect", this::connect));
         mainMenu.options.add(new Option("Back", this::createMainMenu));
 
         recreateVisual();
+    }
+
+    private void host() {
+        NetworkServer.StartServer();
+        Game.startGame();
+    }
+
+    private void connect() {
+        NetworkClient.Connect("localhost");
+        Game.startGame();
     }
 
     @Override
@@ -164,7 +177,7 @@ public class NetworkInterface extends Plugin implements KeyListener {
 
                 if (t != null) {
                     boolean s = isSelected(option);
-                    t.setColor(s ? Color.WHITE : Color.GRAY);
+                    t.setColor(s ? Color.WHITE.getRGB() : Color.GRAY.getRGB());
                     t.setText((s ? "> " : "") + option.text);
                 }
             }
@@ -204,7 +217,7 @@ public class NetworkInterface extends Plugin implements KeyListener {
 
                 t.setFont(Game.global_font);
 
-                t.setColor(isSelected(option) ? Color.WHITE : Color.GRAY);
+                t.setColor(isSelected(option) ? Color.WHITE.getRGB() : Color.GRAY.getRGB());
 
                 t.setSize(size);
 

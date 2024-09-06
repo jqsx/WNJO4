@@ -2,9 +2,9 @@ package jqsx.Net;
 
 import KanapkaEngine.Components.Node;
 import KanapkaEngine.Net.NetworkConnectionToClient;
+import KanapkaEngine.Net.NetworkOperation;
 import KanapkaEngine.Net.NetworkServer;
 import KanapkaEngine.Net.Router.Route;
-import jqsx.scripts.NetSync;
 import jqsx.scripts.entities.player.Player;
 import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
 
@@ -16,12 +16,13 @@ public class PositionSync extends Route {
     public void ServerClient_IN(NetworkConnectionToClient conn, byte[] data) {
         super.ServerClient_IN(conn, data);
 
-        for (int i = 0; i < NetSync.netObjects.size(); i++) {
-            NetSync player = NetSync.netObjects.get(i);
-
-            if (player.getId() == conn.getId())
-                player.getParent().transform.setPosition(getPosition(data));
-        }
+        NetSync.netObjects.foreach(nobj -> {
+            if (nobj.getId() == conn.getId()) {
+                new NetworkOperation(() -> {
+                    nobj.netPosition = getPosition(data);
+                });
+            }
+        });
     }
 
     private Vector2D getPosition(byte[] data) {
@@ -41,7 +42,19 @@ public class PositionSync extends Route {
     public void Client_IN(byte[] data) {
         super.Client_IN(data);
 
+        ByteBuffer buffer = ByteBuffer.wrap(data);
 
+        int nid = buffer.getInt();
+        double x = buffer.getDouble();
+        double y = buffer.getDouble();
+
+        NetSync.netObjects.foreach(nobj -> {
+            if (nobj.getId() == nid) {
+                new NetworkOperation(() -> {
+                    nobj.netPosition = getPosition(data);
+                });
+            }
+        });
     }
 
     public void syncLocal() {
@@ -61,14 +74,13 @@ public class PositionSync extends Route {
     }
 
     public void syncAllPlayers() {
-        int size = NetSync.netObjects.size();
+        int size = NetSync.netObjects.getSize();
         ByteBuffer buffer = ByteBuffer.allocate(4 + 20 * size);
 
         buffer.putInt(size);
-        for (int i = 0; i < size; i++) {
-            NetSync player = NetSync.netObjects.get(i);
-            buffer.put(s_getPosForConn(player.getId(), player.getParent()));
-        }
+        NetSync.netObjects.foreach(nobj -> {
+            buffer.put(s_getPosForConn(nobj.getId(), nobj.getParent()));
+        });
 
         byte[] array = buffer.array();
 

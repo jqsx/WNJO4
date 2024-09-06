@@ -3,16 +3,14 @@ package jqsx.scripts.entities.player;
 import KanapkaEngine.Components.*;
 import KanapkaEngine.Engine;
 import KanapkaEngine.Game.Input;
-import KanapkaEngine.Game.Scheduler;
 import KanapkaEngine.Net.NetworkIdentity;
 import KanapkaEngine.Time;
 import jqsx.Blocks.DropType;
-import jqsx.Blocks.Drops;
 import jqsx.Net.NetworkInterface;
 import jqsx.scripts.DelayDestroy;
-import jqsx.scripts.NetSync;
+import jqsx.Net.NetSync;
 import jqsx.scripts.Particles.BreakParticle;
-import jqsx.scripts.Particles.TestParticle;
+import jqsx.scripts.Particles.Explosion;
 import jqsx.scripts.Particles.TestParticleSystem;
 import jqsx.scripts.PlayerInput;
 import jqsx.scripts.entities.Entity;
@@ -29,9 +27,8 @@ import java.util.List;
 public class Player extends Entity implements Renderable {
     public static Player localPlayer;
     public static List<Player> players = new ArrayList<>();
-    private Container container;
+    private final Container container;
     private int selectedSlot = 0;
-    private int id;
     private boolean local = false;
     private final Rigidbody rb;
     private final Collider collider;
@@ -41,12 +38,12 @@ public class Player extends Entity implements Renderable {
     private TestParticleSystem dashcomp;
     private double breakDelay = Time.time();
     private static byte[] breaking;
-    public Player(int id) {
+    public Player(int connid) {
         super();
 
         addComponent(rb = new Rigidbody());
         addComponent(collider = new Collider());
-        addComponent(identity = new NetworkIdentity(id));
+        addComponent(identity = new NetworkIdentity(connid));
         addComponent(sync = new NetSync());
 
         transform.setPosition(new Vector2D(0, 0));
@@ -89,7 +86,7 @@ public class Player extends Entity implements Renderable {
     }
 
     public int getId() {
-        return id;
+        return identity.getNetID();
     }
 
     public int getNetSyncId() {
@@ -130,16 +127,18 @@ public class Player extends Entity implements Renderable {
             }
 
             if (dashDelay < Time.time() && Input.isKeyDown(' ')) {
-                rb.addVelocity(new Vector2D(x, y).scalarMultiply(1600.0));
+//                rb.addVelocity(new Vector2D(x, y).scalarMultiply(1600.0));
                 dashDelay = Time.time() + 0.7;
+//
+//                for (int i = 0; i < 16; i++) {
+//                    Scheduler.delay(() -> {
+//                        TestParticle particle = dashcomp.Spawn();
+//
+//                        particle.addVelocity(rb.getVelocity().scalarMultiply(-0.1));
+//                    }, i / 32.0);
+//                }
 
-                for (int i = 0; i < 16; i++) {
-                    Scheduler.delay(() -> {
-                        TestParticle particle = dashcomp.Spawn();
-
-                        particle.addVelocity(rb.getVelocity().scalarMultiply(-0.1));
-                    }, i / 32.0);
-                }
+                Explosion.create(transform.getPosition());
             }
             rb.setVelocity(new Vector2D(Mathf.Lerp(rb.getVelocity().getX(), x * 50.0, Time.deltaTime() * 10.0), Mathf.Lerp(rb.getVelocity().getY(), y * 50.0, Time.deltaTime() * 10.0)));
 
@@ -182,12 +181,6 @@ public class Player extends Entity implements Renderable {
                     block.damage += mining_damage;
 
                     if (block.damage >= block.getBlockData().blockStrength) {
-                        if (block.getBlockData() instanceof Drops drops) {
-                            for (ItemStack itemStack : drops.getDrops()) {
-                                itemStack.createDrop(block.getCenter());
-                            }
-                        }
-
                         if (block.getBlockData() instanceof DropType dropType) {
                             dropType.onBreak(block);
                         }
@@ -231,17 +224,17 @@ public class Player extends Entity implements Renderable {
 
         if (item.getAmount() > 1) {
             if (all) {
-                item.createDrop(transform.getPosition());
+                item.createDrop(transform.getPosition(), NetSync.getFreeID());
                 inventory.setItem(i, null);
             }
             else {
                 ItemStack one = new ItemStack(item.getId(), 1);
-                one.createDrop(transform.getPosition());
+                one.createDrop(transform.getPosition(), NetSync.getFreeID());
                 item.setAmount(item.getAmount() - 1);
             }
         }
         else {
-            item.createDrop(transform.getPosition());
+            item.createDrop(transform.getPosition(), NetSync.getFreeID());
             inventory.setItem(i, null);
         }
     }

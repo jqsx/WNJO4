@@ -5,6 +5,7 @@ import KanapkaEngine.Engine;
 import KanapkaEngine.Game.*;
 import KanapkaEngine.Net.NetworkServer;
 import KanapkaEngine.RenderLayers.Chunks;
+import KanapkaEngine.RenderLayers.Debug;
 import KanapkaEngine.Time;
 import KanapkaEngine.UI.Image;
 import KanapkaEngine.UI.Text;
@@ -12,6 +13,7 @@ import KanapkaEngine.UI.UI;
 import KanapkaEngine.UI.UIComponent;
 import jqsx.Blocks.BlockRegistry;
 import jqsx.Net.NetworkInterface;
+import jqsx.Net.Router;
 import jqsx.World.ProceduralWorld;
 import jqsx.scripts.*;
 import jqsx.scripts.entities.player.Player;
@@ -51,11 +53,19 @@ public class Game implements GameLogic {
         EngineConfiguration config = new EngineConfiguration();
         config.height = 600;
         config.width = 800;
-        config.FPSLIMIT = 60;
+        config.FPSLIMIT = 6000;
         config.window_title = "WNJO";
 
         engine = new Engine(game, config);
         engine.InitializeLayers();
+
+        engine.RegisterRenderLayer(new Debug());
+
+        DI_RenderLayer diRenderLayer = new DI_RenderLayer();
+
+        engine.RegisterRenderLayer(diRenderLayer);
+
+        engine.load(diRenderLayer);
 
 //        engine.load(new SimpleViewController());
         engine.load(new PlayerInput());
@@ -74,8 +84,8 @@ public class Game implements GameLogic {
 
         engine.RegisterRenderLayer(new InventoryDisplay());
 
-//        loadIntoScene();
-        startGame();
+        loadIntoScene();
+//        startGame();
     }
 
     private static void loadIntoScene() {
@@ -122,7 +132,7 @@ public class Game implements GameLogic {
 
             jqsx.setText("< Made by JQSx >");
 
-            jqsx.setColor(Color.RED);
+            jqsx.setColor(0xff0000);
 
             jqsx.position = new Vector2D(0, -70);
 
@@ -145,10 +155,11 @@ public class Game implements GameLogic {
 
     }
     public static void startGame() {
-
+        UI.currentlyDisplayed = new UI();
         NetworkInterface.isEnabled = false;
 
-        Scene sampleScene = new Scene(new ProceduralWorld());
+        //Scene sampleScene = new Scene(new ProceduralWorld());
+        Scene sampleScene = new Scene(new World());
         sampleScene.setGlobalSize(2);
         sampleScene.load();
         SceneManager.loadScene(sampleScene);
@@ -184,10 +195,13 @@ public class Game implements GameLogic {
     @Override
     public void Update() {
         if (!started) return;
-//        if (net_server_last < Time.time()) {
-//            Router.positionSync.syncAllPlayers();
-//            net_server_last = Time.time() + 0.05;
-//        }
+        if (NetworkServer.isServer && net_server_last < Time.time()) {
+            Router.positionSync.syncAllPlayers();
+            net_server_last = Time.time() + 0.05;
+        }
+        else if (net_server_last < Time.time()) {
+
+        }
     }
     @Override
     public void End() {
