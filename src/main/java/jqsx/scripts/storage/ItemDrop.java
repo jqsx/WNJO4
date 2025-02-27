@@ -7,7 +7,6 @@ import jqsx.scripts.ItemDropRenderer;
 import jqsx.Net.NetSync;
 import jqsx.scripts.entities.Entity;
 import jqsx.scripts.entities.player.Player;
-import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
 
 import java.util.Objects;
 
@@ -23,7 +22,7 @@ public class ItemDrop extends Entity {
         getCollider().noMass = true;
         addComponent(new Rigidbody());
 
-        transform.setSize(new Vector2D(6, 6));
+        transform.setSize(new Vector2d(6, 6));
 
         addComponent(new ItemDropRenderer());
 

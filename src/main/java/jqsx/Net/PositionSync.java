@@ -6,7 +6,6 @@ import KanapkaEngine.Net.NetworkOperation;
 import KanapkaEngine.Net.NetworkServer;
 import KanapkaEngine.Net.Router.Route;
 import jqsx.scripts.entities.player.Player;
-import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
 
 import java.io.*;
 import java.nio.ByteBuffer;
@@ -25,14 +24,14 @@ public class PositionSync extends Route {
         });
     }
 
-    private Vector2D getPosition(byte[] data) {
+    private Vector2d getPosition(byte[] data) {
         DataInputStream stream = new DataInputStream(new ByteArrayInputStream(data));
 
         try {
             double x = stream.readDouble();
             double y = stream.readDouble();
 
-            return new Vector2D(x, y);
+            return new Vector2d(x, y);
         } catch (IOException e) {
             return null;
         }
